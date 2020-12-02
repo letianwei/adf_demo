@@ -1,0 +1,593 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name"
+		},
+		"Inputblob": {
+			"type": "string"
+		},
+		"Outputsql": {
+			"type": "string"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Blob To Sql')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Blob csv/excel/txt to Sql",
+				"activities": [
+					{
+						"name": "FinancialTestData01Xls to SQL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "BU",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BU",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Period",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Period",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Product Name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Product_Name",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Protection/NB Ind",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Protection_NB_Ind",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Premium Term",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Premium_Term",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Benefit Term",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Benefit_Term",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Sub Channel",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Sub_Channel",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "VS/VI Ind",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "VS_VI_Ind",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LC_AFYP (Net of JV)"
+										},
+										"sink": {
+											"name": "LC_AFYP_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LC_NBSP 10% (Net of JV)"
+										},
+										"sink": {
+											"name": "LC_NBSP_10_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LC_ANP (Net of JV)"
+										},
+										"sink": {
+											"name": "LC_ANP_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LC_VONB (Net of JV)"
+										},
+										"sink": {
+											"name": "LC_VONB_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LC_VONB (Citi Basis - Net of JV)"
+										},
+										"sink": {
+											"name": "LC_VONB_Citi_Basis_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LC_Present Value of Annualized Premium (Net of JV)"
+										},
+										"sink": {
+											"name": "LC_Present_Value_of_Annualized_Premium_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LC_No of Policy"
+										},
+										"sink": {
+											"name": "LC_No_of_Policy",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LC_Sum Assured"
+										},
+										"sink": {
+											"name": "LC_Sum_Assured",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "USD_AFYP (Net of JV)"
+										},
+										"sink": {
+											"name": "USD_AFYP_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "USD_NBSP 10% (Net of JV)"
+										},
+										"sink": {
+											"name": "USD_NBSP_10_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "USD_ANP (Net of JV)"
+										},
+										"sink": {
+											"name": "USD_ANP_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "USD_VONB (Net of JV)"
+										},
+										"sink": {
+											"name": "USD_VONB_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "USD_VONB (Citi Basis - Net of JV)"
+										},
+										"sink": {
+											"name": "USD_VONB_Citi_Basis_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "USD_Present Value of Annualized Premium (Net of JV)"
+										},
+										"sink": {
+											"name": "USD_Present_Value_of_Annualized_Premium_Net_of_JV",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "USD_No of Policy"
+										},
+										"sink": {
+											"name": "USD_No_of_Policy",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "USD_Sum Assured"
+										},
+										"sink": {
+											"name": "USD_Sum_Assured",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "FinancialTestData01Xls",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "FinancialTestDataTable",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"concurrency": 1,
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/FinancialTestData01Xls')]",
+				"[concat(variables('factoryId'), '/datasets/FinancialTestDataTable')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FinancialTestData01Xls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('Inputblob')]",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "BPC_CY_1H_P",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Financial_Test_Data01_U.xlsx",
+						"container": "input"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "BU",
+						"type": "String"
+					},
+					{
+						"name": "Period",
+						"type": "String"
+					},
+					{
+						"name": "Product Name",
+						"type": "String"
+					},
+					{
+						"name": "Protection/NB Ind",
+						"type": "String"
+					},
+					{
+						"name": "Premium Term",
+						"type": "String"
+					},
+					{
+						"name": "Benefit Term",
+						"type": "String"
+					},
+					{
+						"name": "Sub Channel",
+						"type": "String"
+					},
+					{
+						"name": "VS/VI Ind",
+						"type": "String"
+					},
+					{
+						"name": "LC_AFYP (Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "LC_NBSP 10% (Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "LC_ANP (Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "LC_VONB (Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "LC_VONB (Citi Basis - Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "LC_Present Value of Annualized Premium (Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "LC_No of Policy",
+						"type": "String"
+					},
+					{
+						"name": "LC_Sum Assured",
+						"type": "String"
+					},
+					{
+						"name": "USD_AFYP (Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "USD_NBSP 10% (Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "USD_ANP (Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "USD_VONB (Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "USD_VONB (Citi Basis - Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "USD_Present Value of Annualized Premium (Net of JV)",
+						"type": "String"
+					},
+					{
+						"name": "USD_No of Policy",
+						"type": "String"
+					},
+					{
+						"name": "USD_Sum Assured",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FinancialTestDataTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('Outputsql')]",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "RowID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BU",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Period",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Product_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Protection_NB_Ind",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Premium_Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Benefit_Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Sub_Channel",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VS_VI_Ind",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LC_AFYP_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LC_NBSP_10_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LC_ANP_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LC_VONB_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LC_VONB_Citi_Basis_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LC_Present_Value_of_Annualized_Premium_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LC_No_of_Policy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LC_Sum_Assured",
+						"type": "nvarchar"
+					},
+					{
+						"name": "USD_AFYP_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "USD_NBSP_10_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "USD_ANP_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "USD_VONB_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "USD_VONB_Citi_Basis_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "USD_Present_Value_of_Annualized_Premium_Net_of_JV",
+						"type": "nvarchar"
+					},
+					{
+						"name": "USD_No_of_Policy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "USD_Sum_Assured",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Financial2"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
